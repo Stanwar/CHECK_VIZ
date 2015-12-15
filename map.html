@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script data-require="jquery@*" data-semver="2.0.3" src="../checkVizAngular/scripts/js/jquery.js"></script>
+
+    <script data-require="bootstrap@*" data-semver="3.1.1" src="../checkVizAngular/bootstrap/js/bootstrap.js"></script>
+
+    <script src="../checkVizAngular/scripts/js/sidebar.js"></script>
+
+    <link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet" href="../checkVizAngular/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../checkVizAngular/styles/style.css" />
+    <link rel="stylesheet" href="../checkVizAngular/styles/sidebar.css" />
+
+
+	<title></title>
+
+	<!-- StyleSheets -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link rel="stylesheet" href="../checkVizAngular/leaflet_minimap/Control.MiniMap.css" />
+	<link rel="stylesheet" href="../checkVizAngular/styles/mapStyle.css">
+	<link rel="stylesheet" href="../checkVizAngular/Leaflet.fullscreen-gh-pages/src/leaflet.fullscreen.css">
+	<link rel="stylesheet" href="../checkVizAngular/scripts/js/trNgGrid.css"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
+
+	
+	<script src="../checkVizAngular/scripts/js/uiBootstrap.js"></script>
+    <script src="../checkVizAngular/scripts/js/bootstrap-table.css"></script>
+    <script src="../checkVizAngular/scripts/js/bootstrap-table.js"></script>
+
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="../checkVizAngular/scripts/js/leaflet.js"></script>
+	<script src="../checkVizAngular/leaflet_minimap/Control.MiniMap.js"></script>
+	<script type="text/javascript" src="scripts/js/angular-simple-logger.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+	<script src="../checkVizAngular/Leaflet.fullscreen-gh-pages/src/Leaflet.fullscreen.js"></script>
+	<script src="../checkVizAngular/scripts/js/trNgGrid.js"></script>
+	<!-- Bootstrap Modules --> 
+
+	<script src="../checkVizAngular/angular-leaflet-directive-master/dist/angular-leaflet-directive.min.js"></script>
+    
+	<!-- Javascript Scripts --> 
+	
+	<script src="../checkVizAngular/data/chicago_map.js"></script>
+	<script src="scripts/controllers/DataPHPController.js"></script>
+	
+	<!-- Services --> 
+	<script src="scripts/services/data_uihp_service.js"></script>
+	<!-- Modules -->
+	<script src="scripts/app.js"></script>
+
+	<!-- Controllers -->
+	<script src="scripts/controllers/MapController.js"></script>
+	<script src="scripts/controllers/ButtonsController.js"></script>
+	<!-- Directives -->
+	<!-- <script src="scripts/directives/leaflet_map.js"></script>-->
+  </head>
+
+  <body ng-app="leafletApp">
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-static navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle toggle-left hidden-md hidden-lg" data-toggle="sidebar" data-target=".sidebar-left">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CRI - CHECK </a>
+        </div>
+        <button type="button" class="navbar-toggle toggle-right" data-toggle="sidebar" data-target=".sidebar-right">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+    </div>
+    <!-- Begin page content -->
+    <div class="container-fluid" ng-controller="mapController" ng-init>
+      <div class="row">
+        <div class="main col-md-9 col-md-offset-3">
+        <!-- LEAFLET Map Code --> 
+			<div id="leafet_Map" >
+				 <leaflet width="100%" height="480px" controls="controls" center="chicago" legend="legend" defaults="defaults" geojson="geojson"></leaflet>
+					<!-- <p ng-controller="dataPHPController">
+					{{ eligible }}
+					</p>
+					
+					{{ ZIPCODES }}-->
+					<!--<button type="button" class="btn btn-primary" ng-click="updateColor()" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+        				Single Toggle
+    				</button> --> 
+	    			<div ng-controller="dataPHPController">
+						<!--{{ uihp }}-->
+
+						<!--{{ uihp }}-->
+						<!-- <div ui-grid="gridoptions" class="grid" ui-grid-resize-columns ui-grid-move-columns></div> -->
+						<table tr-ng-grid items="uihp"></table>
+					</div>
+			</div>
+        </div>
+
+        <div class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-left sidebar-animate sidebar-md-show">
+			<div>
+				<ul class="list-unstyled">
+					<li><h4> Sources </h4></li>
+					<div class="btn-group" ng-click="change()">
+						<label class="btn btn-primary" ng-model="sourceInitialModel" uib-btn-radio="'Total'">Total</label>
+						<label class="btn btn-primary" ng-model="sourceInitialModel" uib-btn-radio="'UIHP'">UIHP</label>
+						<label class="btn btn-primary" ng-model="sourceInitialModel" uib-btn-radio="'Harmony'">Harmony</label>
+					</div>
+					<li><h4> Views </h4></li>
+					<div class="btn-group" ng-click="change()">
+						<label class="btn btn-primary" ng-model="sourceRadioModel" uib-btn-radio="'Eligible'" ng-disabled="disableCheck">Eligible</label>
+						<label class="btn btn-primary" ng-model="sourceRadioModel" uib-btn-radio="'Enrolled'" ng-disabled="disableCheck">Enrolled</label>
+					</div>
+					<li><h4> Age </h4></li>
+						<div class="btn-group" ng-click="change()">
+							<label class="btn btn-primary" ng-model="ageRadioModel" uib-btn-radio="'Total'"  ng-disabled="disableCheck">Total</label>
+							<label class="btn btn-primary" ng-model="ageRadioModel" uib-btn-radio="'Under'"  ng-disabled="disableCheck">Under 25</label>
+							<label class="btn btn-primary" ng-model="ageRadioModel" uib-btn-radio="'Above'"  ng-disabled="disableCheck">Above 25</label>
+						</div>
+					<li><h4> Encounters </h4></li>
+						<div class="btn-group" ng-click="change()">
+							<!--<label class="btn btn-primary" ng-model="checkModel.ALL" uib-btn-checkbox>ALL</label>-->
+							<label class="btn btn-primary" ng-model="checkModel.IP" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">IP</label>
+							<label class="btn btn-primary" ng-model="checkModel.OP" uib-btn-checkbox uncheckable  ng-disabled="disableCheck"> OP</label>
+							<label class="btn btn-primary" ng-model="checkModel.NIPS" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">NIPS</label>
+						</div>
+					<li><h4> Diseases </h4></li>
+						<div class="btn-group" ng-click="change()" >
+							<!--<label class="btn btn-primary" ng-model="diseaseModel.ALL" uib-btn-checkbox>All</label>-->
+							<label class="btn btn-primary" ng-model="diseaseModel.Asthma" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">Asthma</label>
+							<label class="btn btn-primary" ng-model="diseaseModel.Diabetes" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">Diabetes</label>
+							<label class="btn btn-primary" ng-model="diseaseModel.SCD" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">SCD</label>
+							<label class="btn btn-primary" ng-model="diseaseModel.Epilepsy" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">Epilepsy</label>
+							<label class="btn btn-primary" ng-model="diseaseModel.NewbornInjury" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">NewbornInjury</label>
+							<label class="btn btn-primary" ng-model="diseaseModel.Prematurity" uib-btn-checkbox uncheckable  ng-disabled="disableCheck">Prematurity</label>
+						</div>
+					<li><h4> Map Controls </h4></li>
+						<div class="btn-group" ng-click="change()">
+							<label class="btn btn-primary" ng-model="heatMapModel" uib-btn-radio="'Patient_Encounter'" ng-disabled="disableCheck">Patient_Encounter</label>
+							<label class="btn btn-primary" ng-model="heatMapModel" uib-btn-radio="'Patient_Charges'" ng-disabled="disableCheck">Patient_Charges</label>
+							<label class="btn btn-primary" ng-model="heatMapModel" uib-btn-radio="'Disease_Encounter'" ng-disabled="disableCheck">Disease_Encounters</label>
+						</div>
+				</ul>
+				
+				
+				<!-- 
+				<h4> Views </h4>
+				<div class="btn-group">
+					<label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'ZipCodes'">Left</label>
+					<label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Eligible'">Middle</label>
+					<label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Enrolled'">Right</label>
+				</div>
+				-->
+			</div>
+		</div>
+		<!-- Hidden NavBar --> 
+		<!-- All the map controls to be put in this --> 
+        <div class="col-xs-7 col-sm-3 col-md-3 sidebar sidebar-right sidebar-animate">
+		
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>
